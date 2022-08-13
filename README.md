@@ -1,1 +1,1 @@
-# JQ-Quiz
+# Coding Quiz
