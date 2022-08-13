@@ -1,3 +1,10 @@
+const viewScoresBtnEl = document.querySelector('#view-scores');
+const timerEl = document.querySelector('#timer');
+
+const contentHeaderEl = document.querySelector('#content-head');
+const contentBodyEL = document.querySelector('#content-body');
+const contenFooterEl = document.querySelector('#content-foot');
+
 //Start button handler
 
 //Function to set layout for before quiz.
