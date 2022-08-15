@@ -38,6 +38,7 @@ function startQuiz(event) {
     timerEl.textContent = '';
     contentHeaderEl.textContent = '';
     contenFooterEl.textContent = '';
+    viewScoresBtnEl.removeEventListener('click', displayScores);
     viewScoresBtnEl.setAttribute('disabled', '');
     startTimer(60);
     startButton.removeEventListener('click', startQuiz);
@@ -155,7 +156,41 @@ function quizOver() {
 //function to load and display scores
 
 function displayScores(){
-    //
+    let clearBtnEl = document.createElement('button');
+    let backBtnEl = document.createElement('button');
+    let scoreArray = [];
+    viewScoresBtnEl.removeEventListener('click', displayScores);
+    viewScoresBtnEl.setAttribute('disabled', '');
+    contentHeaderEl.textContent = 'High Scores';
+    contenFooterEl.textContent = '';
+    for (let i = 0; i < localStorage.length; i++) {
+        scoreArray.push() = `${localStorage.key(i)}|!|${localStorage.getItem(localStorage.key(i))}`;
+    }
+    //arrange the array in decending order of scores
+    scoreArray.sort(function(a, b){return Number(b.split('|!|')[1])-Number(a.split('|!|')[1])});
+    for (let i = 0; i < scoreArray.length; i++) {
+        let scoreEl = document.createElement('p');
+        scoreEl.classList.add('score');
+        scoreEl.textContent = `${i}. ${scoreArray[i].split('|!|')[0]}: ${scoreArray[i].split('|!|')[1]}`;
+        contentBodyEL.appendChild(scoreEl);
+    }
+    clearBtnEl.classList.add('danger', 'scoreBtn');
+    backBtnEl.classList.add('info', 'scoreBtn');
+    clearBtnEl.addEventListener('click', function() {
+        localStorage.clear();
+        document.querySelectorAll('.score').forEach(element => {
+            element.remove();
+        });
+    });
+    backBtnEl.addEventListener('click', function() {
+        document.querySelectorAll('.score').forEach(element => {
+            element.remove();
+        });
+        document.querySelectorAll('.scoreBtn').forEach(element => {
+            element.remove();
+        });
+        setUpTitleScreen();
+    });
 }
 
 //on load retrieve local storage scores
