@@ -22,6 +22,7 @@ function arrayRandomizer(array) {
 
 //Function to set layout for before quiz.
 function setUpTitleScreen() {
+    score = 0;
     viewScoresBtnEl.removeAttribute('disabled');
     viewScoresBtnEl.addEventListener('click', displayScores);
     contentHeaderEl.textContent = 'Coding Quiz!';
@@ -58,6 +59,10 @@ function startTimer(seconds) {
         timerEl.textContent = `Time: ${seconds}`;
         if (seconds <= 0) {
             quizOver();
+            document.querySelectorAll('.answer-btn').forEach(ansButton => {
+                ansButton.removeEventListener('click', answerPressed);
+                ansButton.remove();
+            });
         }
         else {
             seconds--;
@@ -114,6 +119,7 @@ function quizOver() {
     let submitBtnEl = document.createElement('button');
     let skipBtnEl = document.createElement('button');
     contentHeaderEl.textContent = `Your score is ${score}!\nWant to save it?`;
+    questionNum = 0;
     formEl.classList.add('formItem');
     nameLabelEl.setAttribute('for', 'name');
     nameLabelEl.textContent = 'Name/Nickname:';
