@@ -7,6 +7,7 @@ var contenFooterEl = document.querySelector('#content-foot');
 var score = 0;
 var questionNum = 0;
 var questionQueue = [];
+var interval; //for the setInterval ID
 
 function arrayRandomizer(array) {
     let randomizedArray = [];
@@ -21,6 +22,8 @@ function arrayRandomizer(array) {
 
 //Function to set layout for before quiz.
 function setUpTitleScreen() {
+    viewScoresBtnEl.removeAttribute('disabled');
+    viewScoresBtnEl.addEventListener('click', displayScores);
     contentHeaderEl.textContent = 'Coding Quiz!';
     contenFooterEl.textContent = 'Once you hit start you will have 60 seconds to correctly answer as many questions as possible.';
     const startButton = document.createElement('button');
@@ -32,9 +35,10 @@ function setUpTitleScreen() {
 function startQuiz(event) {
     const startButton = event.target;
     questionQueue = arrayRandomizer(questionList);
+    timerEl.textContent = '';
     contentHeaderEl.textContent = '';
     contenFooterEl.textContent = '';
-    viewScoresBtnEl.setAttribute('disabled', ''); //.removeAttribute('disabled');
+    viewScoresBtnEl.setAttribute('disabled', '');
     startTimer(60);
     startButton.removeEventListener('click', startQuiz);
     startButton.remove();
@@ -47,12 +51,11 @@ function startQuiz(event) {
 //Start timer fuction
 function startTimer(seconds) {
     const timerEl = document.querySelector('#timer');
-    let interval = setInterval(updateTime, 1000);
+    interval = setInterval(updateTime, 1000);
     function updateTime() {
         timerEl.textContent = `Time: ${seconds}`;
         if (seconds <= 0) {
             quizOver();
-            clearInterval(interval);
         }
         else {
             seconds--;
@@ -101,14 +104,59 @@ function answerPressed(event) {
 }
 //When out of time OR all questions answered end game function
 function quizOver() {
-    //
+    let formEl = document.createElement('form');
+    let nameLabelEl = document.createElement('label');
+    let nameInputEl = document.createElement('input');
+    let divsEl = document.createElement('div');
+    let submitBtnEl = document.createElement('button');
+    let skipBtnEl = document.createElement('button');
+    contentHeaderEl.textContent = `Your score is ${score}!\nWant to save it?`;
+    formEl.classList.add('formItem');
+    nameLabelEl.setAttribute('for', 'name');
+    nameLabelEl.textContent = 'Name/Nickname:';
+    nameLabelEl.classList.add('formItem');
+    nameInputEl.setAttribute('id', 'name');
+    nameInputEl.setAttribute('name', 'name');
+    nameInputEl.setAttribute('required', '');
+    nameInputEl.setAttribute('type', 'text');
+    nameInputEl.setAttribute('placeholder', 'Name/Nickname');
+    nameInputEl.classList.add('formItem');
+    divsEl.classList.add('container', 'formItem');
+    submitBtnEl.setAttribute('type', 'submit');
+    submitBtnEl.textContent = 'Submit';
+    submitBtnEl.classList.add('success', 'formItem');
+    skipBtnEl.textContent = 'Skip';
+    skipBtnEl.classList.add('info', 'formItem');
+    clearInterval(interval);
+    timerEl.textContent = '';
+    contentBodyEL.appendChild(formEl);
+    formEl.appendChild(nameLabelEl);
+    formEl.appendChild(nameInputEl);
+    formEl.appendChild(divsEl);
+    divsEl.appendChild(skipBtnEl);
+    divsEl.appendChild(submitBtnEl);
+    formEl.addEventListener('submit', (event) => {
+        localStorage.setItem(nameInputEl.value, score);
+        document.querySelectorAll('.formItem').forEach(element => {
+            element.remove();
+        });
+        setUpTitleScreen();
+    });
+    skipBtnEl.addEventListener('click', (even) => {
+        document.querySelectorAll('.formItem').forEach(element => {
+            element.remove();
+        });
+        setUpTitleScreen();
+    });
 }
 
 //end game function makes layout for entering score.
 
-//Input handler for initals/name
-//add name and score to high score list
-//Save score and name to local storage
+//function to load and display scores
+
+function displayScores(){
+    //
+}
 
 //on load retrieve local storage scores
 window.addEventListener('load', function () {
@@ -128,8 +176,8 @@ var questionList = [
     },
     {
         question: 'Question 3',
-        correctAnswers: ['Correct'],
-        wrongAnswers: ['Incorrect 1', 'Incorrect 2', 'Incorrect 3']
+        correctAnswers: ['Correct 1', 'Correct 2'],
+        wrongAnswers: ['Incorrect 1', 'Incorrect 2']
     },
     {
         question: 'Question 4',
