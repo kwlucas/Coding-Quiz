@@ -1,8 +1,8 @@
-var viewScoresBtnEl = document.querySelector('#view-scores');
-
-var contentHeaderEl = document.querySelector('#content-head');
-var contentBodyEL = document.querySelector('#content-body');
-var contenFooterEl = document.querySelector('#content-foot');
+var viewScoresBtnEl;
+var timerEl;
+var contentHeaderEl;
+var contentBodyEl;
+var contenFooterEl;
 
 var score = 0;
 var questionNum = 0;
@@ -27,8 +27,9 @@ function setUpTitleScreen() {
     contentHeaderEl.textContent = 'Coding Quiz!';
     contenFooterEl.textContent = 'Once you hit start you will have 60 seconds to correctly answer as many questions as possible.';
     const startButton = document.createElement('button');
+    startButton.classList.add('startBtn')
     startButton.textContent = 'Start Quiz';
-    contentBodyEL.appendChild(startButton);
+    contentBodyEl.appendChild(startButton);
     startButton.addEventListener('click', startQuiz);
 }
 //Function to set layout for during the quiz.
@@ -44,6 +45,7 @@ function startQuiz(event) {
     startButton.removeEventListener('click', startQuiz);
     startButton.remove();
     questionNum = 1;
+    score = 0;
     displayQuestion(questionQueue.shift())
 }
 //Fucntion to set layout for viewing high scores.
@@ -51,7 +53,6 @@ function startQuiz(event) {
 
 //Start timer fuction
 function startTimer(seconds) {
-    const timerEl = document.querySelector('#timer');
     interval = setInterval(updateTime, 1000);
     function updateTime() {
         timerEl.textContent = `Time: ${seconds}`;
@@ -79,7 +80,7 @@ function displayQuestion(questionObj) {
         else {
             ansButton.classList.add('select-effect-danger');
         }
-        contentBodyEL.appendChild(ansButton);
+        contentBodyEl.appendChild(ansButton);
         ansButton.addEventListener('click', answerPressed);
     }
 
@@ -96,10 +97,11 @@ function answerPressed(event) {
         ansButton.removeEventListener('click', answerPressed);
         ansButton.remove();
     });
+    questionNum++;
     if (questionQueue.length > 0) {
         displayQuestion(questionQueue.shift());
     }
-    else{
+    else {
         quizOver();
     }
 }
@@ -130,20 +132,22 @@ function quizOver() {
     skipBtnEl.classList.add('info', 'formItem');
     clearInterval(interval);
     timerEl.textContent = '';
-    contentBodyEL.appendChild(formEl);
+    contentBodyEl.appendChild(formEl);
     formEl.appendChild(nameLabelEl);
     formEl.appendChild(nameInputEl);
     formEl.appendChild(divsEl);
     divsEl.appendChild(skipBtnEl);
     divsEl.appendChild(submitBtnEl);
     formEl.addEventListener('submit', (event) => {
+        event.preventDefault();
         localStorage.setItem(nameInputEl.value, score);
         document.querySelectorAll('.formItem').forEach(element => {
             element.remove();
         });
         setUpTitleScreen();
     });
-    skipBtnEl.addEventListener('click', (even) => {
+    skipBtnEl.addEventListener('click', (event) => {
+        event.preventDefault();
         document.querySelectorAll('.formItem').forEach(element => {
             element.remove();
         });
@@ -155,34 +159,39 @@ function quizOver() {
 
 //function to load and display scores
 
-function displayScores(){
+function displayScores() {
     let clearBtnEl = document.createElement('button');
     let backBtnEl = document.createElement('button');
     let scoreArray = [];
+    document.querySelector('.startBtn').remove();
     viewScoresBtnEl.removeEventListener('click', displayScores);
     viewScoresBtnEl.setAttribute('disabled', '');
     contentHeaderEl.textContent = 'High Scores';
     contenFooterEl.textContent = '';
     for (let i = 0; i < localStorage.length; i++) {
-        scoreArray.push() = `${localStorage.key(i)}|!|${localStorage.getItem(localStorage.key(i))}`;
+        scoreArray.push(`${localStorage.key(i)}!#!${localStorage.getItem(localStorage.key(i))}`);
     }
     //arrange the array in decending order of scores
-    scoreArray.sort(function(a, b){return Number(b.split('|!|')[1])-Number(a.split('|!|')[1])});
+    scoreArray.sort(function (a, b) { return Number(b.split('!#!')[1]) - Number(a.split('!#!')[1]) });
     for (let i = 0; i < scoreArray.length; i++) {
         let scoreEl = document.createElement('p');
         scoreEl.classList.add('score');
-        scoreEl.textContent = `${i}. ${scoreArray[i].split('|!|')[0]}: ${scoreArray[i].split('|!|')[1]}`;
-        contentBodyEL.appendChild(scoreEl);
+        scoreEl.textContent = `${i+1}. ${scoreArray[i].split('!#!')[0]}: ${scoreArray[i].split('!#!')[1]}`;
+        contentBodyEl.appendChild(scoreEl);
     }
     clearBtnEl.classList.add('danger', 'scoreBtn');
+    clearBtnEl.textContent = 'Clear Scores';
+    contenFooterEl.appendChild(clearBtnEl);
     backBtnEl.classList.add('info', 'scoreBtn');
-    clearBtnEl.addEventListener('click', function() {
+    backBtnEl.textContent = 'Back';
+    contenFooterEl.appendChild(backBtnEl);
+    clearBtnEl.addEventListener('click', function () {
         localStorage.clear();
         document.querySelectorAll('.score').forEach(element => {
             element.remove();
         });
     });
-    backBtnEl.addEventListener('click', function() {
+    backBtnEl.addEventListener('click', function () {
         document.querySelectorAll('.score').forEach(element => {
             element.remove();
         });
@@ -195,6 +204,11 @@ function displayScores(){
 
 //on load retrieve local storage scores
 window.addEventListener('load', function () {
+    viewScoresBtnEl = document.querySelector('#view-scores');
+    timerEl = document.querySelector('#timer');
+    contentHeaderEl = document.querySelector('#content-head');
+    contentBodyEl = document.querySelector('#content-body');
+    contenFooterEl = document.querySelector('#content-foot');
     setUpTitleScreen();
 });
 
