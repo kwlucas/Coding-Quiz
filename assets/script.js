@@ -169,6 +169,7 @@ function displayScores() {
     let clearBtnEl = document.createElement('button');
     let backBtnEl = document.createElement('button');
     let scoreArray = [];
+    contentBodyEl.classList.remove('slate-section');
     document.querySelector('.startBtn').remove();
     viewScoresBtnEl.removeEventListener('click', displayScores);
     viewScoresBtnEl.setAttribute('disabled', '');
@@ -204,6 +205,7 @@ function displayScores() {
         document.querySelectorAll('.scoreBtn').forEach(element => {
             element.remove();
         });
+        contentBodyEl.classList.add('slate-section');
         setUpTitleScreen();
     });
 }
@@ -222,26 +224,26 @@ var questionList = [
     {
         question: 'Question 1',
         correctAnswers: ['Correct'],
-        wrongAnswers: ['Incorrect 1', 'Incorrect 2', 'Incorrect 3']
+        wrongAnswers: ['Incorrect A', 'Incorrect B', 'Incorrect C']
     },
     {
         question: 'Question 2',
         correctAnswers: ['Correct'],
-        wrongAnswers: ['Incorrect 1', 'Incorrect 2', 'Incorrect 3']
+        wrongAnswers: ['Incorrect A', 'Incorrect B', 'Incorrect C']
     },
     {
         question: 'Question 3',
-        correctAnswers: ['Correct 1', 'Correct 2'],
-        wrongAnswers: ['Incorrect 1', 'Incorrect 2']
+        correctAnswers: ['Correct A', 'Correct B'],
+        wrongAnswers: ['Incorrect A', 'Incorrect B']
     },
     {
         question: 'Question 4',
         correctAnswers: ['Correct'],
-        wrongAnswers: ['Incorrect 1', 'Incorrect 2', 'Incorrect 3']
+        wrongAnswers: ['Incorrect A', 'Incorrect B', 'Incorrect C']
     },
     {
         question: 'Question 5',
         correctAnswers: ['Correct'],
-        wrongAnswers: ['Incorrect 1', 'Incorrect 2', 'Incorrect 3']
+        wrongAnswers: ['Incorrect A', 'Incorrect B', 'Incorrect C']
     }
 ]
