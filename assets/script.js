@@ -11,6 +11,7 @@ var interval; //for the setInterval ID
 
 function arrayRandomizer(array) {
     let randomizedArray = [];
+    //Untill the randomized array is equal in length to the array being randomized pick a random item from array and if it is not yet in the randomized array add it.
     while (randomizedArray.length !== array.length) {
         let val = array[Math.floor(Math.random() * array.length)];
         if (!randomizedArray.includes(val)) {
