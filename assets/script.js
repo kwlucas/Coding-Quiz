@@ -8,6 +8,7 @@ var score = 0;
 var questionNum = 0;
 var questionQueue = [];
 var interval; //for the setInterval ID
+var timeRemaining = 0;
 
 function arrayRandomizer(array) {
     let randomizedArray = [];
@@ -67,10 +68,11 @@ function startQuiz(event) {
 function startTimer(seconds) {
     //set the setInterval instance to run every second and assign its id to a global variable so it can be accessed from anywhere.
     interval = setInterval(updateTime, 1000);
+    timeRemaining = seconds
     function updateTime() {
         //update timer text on page
-        timerEl.textContent = `Time: ${seconds}`;
-        if (seconds <= 0) {
+        timerEl.textContent = `Time: ${timeRemaining}`;
+        if (timeRemaining <= 0) {
             //if the timer reaches 0 or less end the quiz with the quiz over function
             quizOver();
             //remove all the buttons for answering questions on the screen
@@ -81,7 +83,7 @@ function startTimer(seconds) {
         }
         else {
             //subtract one from the seconds remaining.
-            seconds--;
+            timeRemaining--;
         }
     }
 }
@@ -120,7 +122,7 @@ function answerPressed(event) {
         score += 10;
     }
     else {
-        seconds -= 10;
+        timeRemaining -= 10;
     }
     //Set the footer text to show the score, number of correct and incorrect answers, and total number of questions answered.
     contenFooterEl.textContent = `Score: ${score}\nCorrect: ${score / 10}\nIncorrect: ${questionNum - (score / 10)}\nQuestions: ${questionNum}`;
@@ -303,7 +305,7 @@ var questionList = [
     {
         question: 'What symbol(s) can be used to put a code expression within a template literal?',
         correctAnswers: ['$ with {}'],
-        wrongAnswers: ['[]', '$', '{}', '$ with [], //']
+        wrongAnswers: ['[]', '$', '{}', '$ with []', '//']
     },
     {
         question: 'What expression is used to print something to the console in JavaScript',
