@@ -115,9 +115,12 @@ function displayQuestion(questionObj) {
 //Function for when an answer is pressed. Value assigned to button indicates right or wrong answer. Adjust score accordingly
 function answerPressed(event) {
     const btn = event.target;
-    //if the button has class that makes it green on click (if the button corresponds to the correct answer) add 10 to the score
+    //if the button has class that makes it green on click (if the button corresponds to the correct answer) add 10 to the score if not (the answer is wrong) minus 10 seconds from the time.
     if (btn.classList.contains('select-effect-success')) {
         score += 10;
+    }
+    else {
+        seconds -= 10;
     }
     //Set the footer text to show the score, number of correct and incorrect answers, and total number of questions answered.
     contenFooterEl.textContent = `Score: ${score}\nCorrect: ${score / 10}\nIncorrect: ${questionNum - (score / 10)}\nQuestions: ${questionNum}`;
@@ -296,5 +299,16 @@ var questionList = [
         question: 'Question 5',
         correctAnswers: ['Correct'],
         wrongAnswers: ['Incorrect A', 'Incorrect B', 'Incorrect C']
+    },
+    {
+        question: 'What symbol(s) can be used to put a code expression within a template literal?',
+        correctAnswers: ['$ with {}'],
+        wrongAnswers: ['[]', '$', '{}', '$ with [], //']
+    },
+    {
+        question: 'What expression is used to print something to the console in JavaScript',
+        correctAnswers: ['console.log'],
+        wrongAnswers: ['print', 'echo', 'alert']
     }
+
 ]
