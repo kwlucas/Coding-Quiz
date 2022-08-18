@@ -18,6 +18,8 @@ This web application provides a timed quiz that a user can take and save their s
 
 * The user can view the saved scores ranked from highest to lowest score.
 
+* When the clear scores button is pressed local storage is cleared of scores.
+
 * During the quiz the application keeps track of how many questions the user has gotten right and wrong.
 
 * When a question is answered incorrectly ten seconds are subtracted from the timer.
