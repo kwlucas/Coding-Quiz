@@ -1,14 +1,14 @@
-var viewScoresBtnEl;
-var timerEl;
-var contentHeaderEl;
-var contentBodyEl;
-var contenFooterEl;
+let viewScoresBtnEl;
+let timerEl;
+let contentHeaderEl;
+let contentBodyEl;
+let contenFooterEl;
 
-var score = 0;
-var questionNum = 0;
-var questionQueue = [];
-var interval; //for the setInterval ID
-var timeRemaining = 0;
+let score = 0;
+let questionNum = 0;
+let questionQueue = [];
+let interval; //for the setInterval ID
+let timeRemaining = 0;
 
 function arrayRandomizer(array) {
     let randomizedArray = [];
