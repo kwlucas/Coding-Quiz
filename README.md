@@ -32,6 +32,6 @@ This web application provides a timed quiz that a user can take and save their s
 
 ## Application Preview
 
-Here is a preview of the web application after generating a password.
+Here is a preview of the web application during a quiz.
 
 ![application preview](./assets/images/preview.PNG)
